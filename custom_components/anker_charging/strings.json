@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "安克充电",
+        "description": "选择接入方式：使用手机号/密码登录，或直接粘贴 App 令牌 (x-auth-token)。",
+        "menu_options": {
+          "account": "手机号 / 密码登录",
+          "token": "令牌 (x-auth-token)"
+        }
+      },
+      "account": {
+        "title": "账号密码登录",
+        "description": "使用安克 App 的手机号/邮箱和密码登录。",
+        "data": {
+          "email": "手机号 / 邮箱",
+          "password": "密码",
+          "country": "区域"
+        }
+      },
+      "token": {
+        "title": "令牌 (x-auth-token)",
+        "description": "粘贴抓包得到的 x-auth-token。uid 可从抓包请求头 uid 中获取（可选，留空则从令牌自动读取）。",
+        "data": {
+          "auth_token": "令牌 (x-auth-token)",
+          "user_id": "用户 ID (uid，可选)",
+          "country": "区域"
+        }
+      },
+      "reauth_confirm": {
+        "title": "重新登录",
+        "description": "账号 {email} 的登录已失效，请重新输入密码。",
+        "data": {
+          "password": "密码"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "账号或密码错误 / 令牌无效",
+      "cannot_connect": "无法连接安克服务器，请检查网络或区域选择",
+      "no_devices": "该账号下未找到设备",
+      "unknown": "未知错误"
+    },
+    "abort": {
+      "already_configured": "该账号已经配置过了"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "today_energy": {
+        "name": "今日输出电量"
+      },
+      "total_power": {
+        "name": "当前总功率"
+      },
+      "rssi": {
+        "name": "WiFi 信号"
+      },
+      "sw_version": {
+        "name": "固件版本"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "安克充电选项",
+        "description": "调整数据刷新间隔。",
+        "data": {
+          "scan_interval": "刷新间隔（秒）"
+        }
+      }
+    }
+  }
+}

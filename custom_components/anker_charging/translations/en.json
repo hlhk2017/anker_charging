@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Anker Charging",
+        "description": "Choose how to connect: sign in with phone/password, or paste an App token (x-auth-token).",
+        "menu_options": {
+          "account": "Phone / password",
+          "token": "Token (x-auth-token)"
+        }
+      },
+      "account": {
+        "title": "Account sign-in",
+        "description": "Sign in with the phone number / e-mail and password used in the Anker app.",
+        "data": {
+          "email": "Phone number / e-mail",
+          "password": "Password",
+          "country": "Region"
+        }
+      },
+      "token": {
+        "title": "Token (x-auth-token)",
+        "description": "Paste the x-auth-token captured from the App. uid is optional (auto-detected if left empty).",
+        "data": {
+          "auth_token": "Token (x-auth-token)",
+          "user_id": "User ID (uid, optional)",
+          "country": "Region"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Sign in again",
+        "description": "The session for {email} has expired, please enter the password again.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid credentials / token",
+      "cannot_connect": "Cannot reach Anker server, check network or region",
+      "no_devices": "No devices found for this account",
+      "unknown": "Unknown error"
+    },
+    "abort": {
+      "already_configured": "This account is already configured"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "today_energy": {
+        "name": "Today's energy"
+      },
+      "total_power": {
+        "name": "Current total power"
+      },
+      "rssi": {
+        "name": "WiFi signal"
+      },
+      "sw_version": {
+        "name": "Firmware version"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Anker Charging options",
+        "description": "Adjust the polling interval.",
+        "data": {
+          "scan_interval": "Polling interval (s)"
+        }
+      }
+    }
+  }
+}

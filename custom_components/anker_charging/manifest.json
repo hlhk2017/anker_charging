@@ -1,0 +1,13 @@
+{
+  "domain": "anker_charging",
+  "name": "Anker Charging 安克充电",
+  "codeowners": [
+    "@hlhk2017"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/hlhk2017/anker_charging",
+  "issue_tracker": "https://github.com/hlhk2017/anker_charging/issues",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}
