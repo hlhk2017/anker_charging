@@ -1,6 +1,7 @@
 """安克充电（Anker Charging）Home Assistant 集成。"""
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import timedelta
 
@@ -78,7 +79,31 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data[DOMAIN][f"{entry.entry_id}_mqtt"] = mqtt_clients
     if mqtt_clients:
         coordinator.mqtt = mqtt_clients[0]
+        # 后台保活：定期发 0x0B 查询，维持设备 param_info 实时流（约 10s 窗口）
+        ka = hass.async_create_task(_realtime_keepalive(hass, coordinator))
+        hass.data[DOMAIN][f"{entry.entry_id}_mqtt_ka"] = ka
     return True
+
+
+async def _realtime_keepalive(hass, coordinator) -> None:
+    """每 ~8s 发一次 0x0B 查询，让设备持续推送 param_info 实时数据。
+
+    实测：单次查询可维持约 10 秒的 1Hz 流；关闭“实时功率”开关时暂停发送。
+    """
+    from .const import CMD_SUB_QUERY
+
+    while True:
+        try:
+            if coordinator.mqtt is not None and getattr(
+                coordinator, "realtime_power_enabled", False
+            ):
+                await coordinator.async_send_groups(CMD_SUB_QUERY, [])
+            await asyncio.sleep(8)
+        except asyncio.CancelledError:
+            break
+        except Exception as err:  # noqa: BLE001
+            _LOGGER.debug("实时保活发送失败: %s", err)
+            await asyncio.sleep(8)
 
 
 def _make_state_cb(coordinator, sn):
@@ -189,6 +214,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """卸载配置条目。"""
     unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unloaded:
+        ka = hass.data[DOMAIN].pop(f"{entry.entry_id}_mqtt_ka", None)
+        if ka is not None:
+            ka.cancel()
         for client in hass.data[DOMAIN].pop(f"{entry.entry_id}_mqtt", []) or []:
             try:
                 client.stop()

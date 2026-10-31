@@ -90,6 +90,7 @@ CMD_SUB_CHARGING_MODE: Final = 0x06      # a2=[01, 模式值]
 CMD_SUB_PORT_PRIORITY: Final = 0x0C      # a2=[01, 端口位掩码]
 CMD_SUB_BRIGHTNESS: Final = 0x04         # a2=[01, 百分比 0-100]
 CMD_SUB_PORT_POWER: Final = 0x07         # a2=[01, 端口索引] a3=[01, 开/关]
+CMD_SUB_QUERY: Final = 0x0B              # 轮询/查询：发送后设备推送 param_info 实时流(~10s 窗口)
 # 充电模式值（a2 第二字节）
 CHARGING_MODES: Final[dict[int, str]] = {
     1: "智能动态分配",
